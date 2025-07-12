@@ -17,9 +17,7 @@ export abstract class BaseData<T> {
                 dateStart: params.dateStart,
                 dateEnd: params.dateEnd
             });
-            console.log("consultar URL:", this.path_api_url);
             const response = await axios.post(url);
-            console.log("consultar RESPONSE:"+this.path_api_url, response);
             return response.data as ResponsiveService;
         } catch (e) {
             console.error('Error en consultar:', e);

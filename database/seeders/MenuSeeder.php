@@ -20,44 +20,44 @@ class MenuSeeder extends Seeder
                 'icon' => "fa-solid fa-house"
             ],
             [
-                'title' => 'Almacen',
-                'href' => 'almacen.index',
-                'icon' => "fa-solid fa-warehouse"
-            ],
-            [
-                'title' => 'Categoria',
-                'href' => 'categoria.index',
-                'icon' => "fa-solid fa-layer-group"
+                'title' => 'Contratos',
+                'href' => 'contrato.index',
+                'icon' => "fa-solid fa-file-contract"
             ],
             [
                 'title' => 'Cliente',
                 'href' => 'cliente.index',
-                'icon' => "fa-solid fa-person-shelter"
+                'icon' => "fa-solid fa-person"
             ],
             [
                 'title' => 'Empleado',
                 'href' => 'empleado.index',
-                'icon' => "fa-solid fa-user-shield"
+                'icon' => "fa-solid fa-user"
             ],
             [
-                'title' => 'Cargo del Empleado',
-                'href' => 'empleado-cargo.index',
-                'icon' => "fa-solid fa-users-rays"
+                'title' => 'Incidencias',
+                'href' => 'incidencias.index',
+                'icon' => "fa-solid fa-person-shelter"
             ],
             [
-                'title' => 'Empresa',
-                'href' => 'empresa.index',
-                'icon' => "fa-solid fa-building"
+                'title' => 'Productos',
+                'href' => 'producto.index',
+                'icon' => "fa-brands fa-product-hunt"
             ],
             [
-                'title' => 'Inventario',
-                'href' => 'inventario.index',
-                'icon' => "fa-solid fa-money-bill-trend-up"
+                'title' => 'Equipo de Trabajo',
+                'href' => 'equipo-trabajo.index',
+                'icon' => "fa-solid fa-users"
             ],
             [
-                'title' => 'Item',
-                'href' => 'item.index',
-                'icon' => "fa-solid fa-store"
+                'title' => 'Servicios',
+                'href' => 'servicio.index',
+                'icon' => "fa-solid fa-list-check"
+            ],
+            [
+                'title' => 'Usuarios',
+                'href' => 'users.index',
+                'icon' => "fa-solid fa-users-rectangle"
             ],
             [
                 'title' => 'Menu',
@@ -65,40 +65,16 @@ class MenuSeeder extends Seeder
                 'icon' => "fa-solid fa-bars"
             ],
             [
+                'title' => 'Role',
+                'href' => 'roles.index',
+                'icon' => "fa-solid fa-person-through-window"
+            ],
+            [
                 'title' => 'Permisos',
                 'href' => 'permissions.index',
                 'icon' => "fa-solid fa-key"
             ],
-            [
-                'title' => 'Proveedores',
-                'href' => 'proveedor.index',
-                'icon' => "fa-solid fa-user-tie"
-            ],
-            [
-                'title' => 'Role',
-                'href' => 'roles.index',
-                'icon' => "fa-solid fa-key"
-            ],
-            [
-                'title' => 'Sectores',
-                'href' => 'sector.index',
-                'icon' => "fa-solid fa-rectangle-list"
-            ],
-            [
-                'title' => 'Tipos Documentos',
-                'href' => 'tipo-documento.index',
-                'icon' => "fa-solid fa-file"
-            ],
-            [
-                'title' => 'Unidades',
-                'href' => 'unidad.index',
-                'icon' => "fa-solid fa-bars-staggered"
-            ],
-            [
-                'title' => 'Usuarios',
-                'href' => 'users.index',
-                'icon' => "fa-solid fa-circle-user"
-            ]
+
         ];
 
 

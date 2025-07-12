@@ -2,25 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permissions;
-use App\Models\Roles;
-use App\Http\Requests\StoreRolesRequest;
-use App\Http\Requests\UpdateRolesRequest;
 use App\Services\PermissionService;
 use App\Services\ResponseService;
 use App\Traits\CrudController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
 {
     use CrudController;
-    public Roles $model;
+    public Role $model;
     public $rutaVisita = 'Roles';
     public function __construct()
     {
-        $this->model = new Roles();
+        $this->model = new Role();
     }
     /**
      * Display a listing of the resource.
@@ -49,7 +47,7 @@ class RolesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Roles $roles)
+    public function show(Role $roles)
     {
         //
     }
@@ -57,7 +55,7 @@ class RolesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Roles $roles)
+    public function edit(Role $roles)
     {
         $permiso = strtolower($this->rutaVisita);
         if (!Auth::user()->can($permiso.'-edit')) {
@@ -75,7 +73,7 @@ class RolesController extends Controller
     public function getAllPermissions()
     {
         try {
-            $permissions = Permissions::all();
+            $permissions = Permission::all();
             return ResponseService::success('Permisos obtenidos correctamente', $permissions);
         } catch (\Exception $e) {
             return ResponseService::error('Error al obtener los permisos', $e->getMessage());
@@ -85,7 +83,7 @@ class RolesController extends Controller
     /**
      * Get permissions for a specific role
      */
-    public function getRolePermissions(Roles $role)
+    public function getRolePermissions(Role $role)
     {
         try {
             $rolePermissions = $role->permissions()->pluck('id')->toArray();
@@ -98,7 +96,7 @@ class RolesController extends Controller
     /**
      * Assign permissions to a role
      */
-    public function assignPermissions(Request $request, Roles $role)
+    public function assignPermissions(Request $request, Role $role)
     {
         try {
             $permissions = $request->input('permissions', []);

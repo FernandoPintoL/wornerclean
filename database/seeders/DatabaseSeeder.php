@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-            ClienteSeeder::class,
-            EmpleadoSeeder::class,
             RolesSeeder::class,
             PermissionsSeeder::class,
+            ClienteSeeder::class,
+            EmpleadoSeeder::class,
             EquipoTrabajoSeeder::class,
             EmpleadoEquipoTrabajoSeeder::class,
             ServicioSeeder::class,
@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
             ProductoSeeder::class,
             ProductoServicioSeeder::class,
             IncidenciasSeeder::class,
+            MenuSeeder::class
         ]);
     }
 }

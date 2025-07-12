@@ -8,17 +8,14 @@ import {
   type DropdownMenuRadioItemProps,
   useForwardPropsEmits,
 } from 'reka-ui'
-import { computed, type HTMLAttributes } from 'vue'
+import { type HTMLAttributes } from 'vue'
+import { reactiveOmit } from '@vueuse/core'
 
 const props = defineProps<DropdownMenuRadioItemProps & { class?: HTMLAttributes['class'] }>()
 
 const emits = defineEmits<DropdownMenuRadioItemEmits>()
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
+const delegatedProps = reactiveOmit(props, 'class')
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 </script>

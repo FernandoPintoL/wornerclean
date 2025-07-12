@@ -35,20 +35,24 @@ const datas = reactive({
     menus: [],
 });
 
-onMounted(() => {
+onMounted(async () => {
     const params: ParamsConsulta = {
         query: '',
     };
-    negocio
+    try {
+        const response = await negocio.consultar(params);
+        datas.menus = response.data;
+    } catch (error) {
+        console.error(error);
+    }
+    /*await negocio
         .consultar(params)
         .then((response) => {
-            console.log("api response: ");
-            console.log(response);
             datas.menus = response.data;
         })
         .catch((error) => {
             console.error(error);
-        });
+        });*/
 });
 </script>
 

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContratoIncidencias;
-use App\Http\Requests\StoreContratoIncidenciasRequest;
-use App\Http\Requests\UpdateContratoIncidenciasRequest;
 use App\Traits\CrudController;
 
 class ContratoIncidenciasController extends Controller

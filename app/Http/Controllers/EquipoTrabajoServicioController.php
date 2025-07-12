@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEquipoTrabajoServicioRequest;
-use App\Http\Requests\UpdateEquipoTrabajoServicioRequest;
 use App\Models\EquipoTrabajoServicio;
 use App\Traits\CrudController;
 

@@ -2,14 +2,12 @@ import { BaseData } from '@/Data/BaseData';
 
 export interface Empleado {
     id?: number;
-    nombre: string;
     ci: string;
-    tipo_documento_id: number;
-    direccion: string;
+    nombre: string;
     telefono: string;
-    email: string;
-    empleado_cargo_id: number;
-    user_id: number;
+    puesto: string;
+    estado: string;
+    user_id?: number | null;
     created_at?: string;
     updated_at?: string;
 }
@@ -19,13 +17,11 @@ export class EmpleadoData extends BaseData<Empleado> {
 export function getDefaultAttributes() {
     return {
         id: true,
-        nombre: true,
         ci: true,
-        tipo_documento_id: true,
-        direccion: true,
+        nombre: true,
         telefono: true,
-        email: true,
-        empleado_cargo_id: true,
+        puesto: true,
+        estado: true,
         user_id: false,
         created_at: false,
         updated_at: false,
@@ -34,12 +30,10 @@ export function getDefaultAttributes() {
 export const selectedAttributes = getDefaultAttributes();
 export const attributesHead = [
     { key: 'id', label: 'ID', isSearch: true },
+    { key: 'ci', label: 'CI', isSearch: true },
     { key: 'nombre', label: 'Nombre', isSearch: true },
-    { key: 'ci', label: 'Número ID', isSearch: true },
-    { key: 'tipo_documento_id', label: 'Tipo Documento', isSearch: true },
-    { key: 'direccion', label: 'Dirección', isSearch: true },
     { key: 'telefono', label: 'Teléfono', isSearch: true },
-    { key: 'email', label: 'Email', isSearch: true },
-    { key: 'empleado_cargo_id', label: 'Cargo', isSearch: true },
+    { key: 'puesto', label: 'Puesto', isSearch: true },
+    { key: 'estado', label: 'Estado', isSearch: true },
     { key: 'acciones', label: 'Acciones', isSearch: false },
 ];

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreIncidenciasRequest;
-use App\Http\Requests\UpdateIncidenciasRequest;
 use App\Models\Incidencias;
 use App\Traits\CrudController;
 

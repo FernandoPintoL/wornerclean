@@ -27,8 +27,8 @@ class RolesSeeder extends Seeder
         $user->assignRole([$admin]);
         $user->givePermissionTo(Permission::all());
 
-        $cliente = User::find(2);
+//        $cliente = User::find(2);
 
-        $empleado = User::find(3);
+//        $empleado = User::find(3);
     }
 }

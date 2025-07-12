@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreProductoRequest;
-use App\Http\Requests\UpdateProductoRequest;
 use App\Models\Producto;
 use App\Traits\CrudController;
 

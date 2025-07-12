@@ -17,23 +17,38 @@ trait CrudController
         }
         return $this->rutaVisita;
     }
+
     public function index()
     {
-        return Inertia::render($this->getModelName() . '/Index', array_merge([
-            'listado' => $this->model::all(),
-        ], PermissionService::getPermissions($this->getModelName())));
+
+        try{
+            $permiso = strtolower($this->getModelName());
+            /*if (!Auth::user()->can($permiso . '-view')) {
+                abort(403);
+            }*/
+            return Inertia::render($this->getModelName() . '/Index', array_merge([
+                'listado' => $this->model::all(),
+            ], PermissionService::getPermissions($permiso)));
+        } catch (\Exception $e) {
+            return ResponseService::error('Error al cargar los datos', $e->getMessage());
+        }
     }
+
     public function create()
     {
-        $permiso = strtolower($this->getModelName());
-        if (!Auth::user()->can($permiso.'-create')) {
-            abort(403);
+        try{
+            $permiso = strtolower($this->getModelName());
+            /*if (!Auth::user()->can($permiso . '-create')) {
+                abort(403);
+            }*/
+            return Inertia::render($this->getModelName() . '/CreateUpdate', array_merge([
+                'isCreate' => true
+            ], PermissionService::getPermissions($permiso)));
+        } catch (\Exception $e) {
+            return ResponseService::error('Error al cargar el formulario de creación', $e->getMessage());
         }
-
-        return Inertia::render($this->getModelName() . '/CreateUpdate', array_merge([
-            'isCreate' => true
-        ], PermissionService::getPermissions($permiso)));
     }
+
     public function store(Request $request)
     {
         try {
@@ -44,24 +59,34 @@ trait CrudController
             return ResponseService::error('Error al guardar el registro', $e->getMessage());
         }
     }
+
     public function edit($id)
     {
-        $permiso = strtolower($this->getModelName());
-        if (!Auth::user()->can($permiso.'-edit')) {
-            abort(403);
+        try{
+            $model = $this->model::find($id);
+            if (!$model) {
+                return ResponseService::error('Registro no encontrado', '', 404);
+            }
+            $permiso = strtolower($this->getModelName());
+            /*if (!Auth::user()->can($permiso . '-edit')) {
+                abort(403);
+            }*/
+            return Inertia::render($this->getModelName() . '/CreateUpdate', array_merge([
+                'isCreate' => false,
+                'model' => $model,
+            ], PermissionService::getPermissions($permiso)));
+        } catch (\Exception $e) {
+            return ResponseService::error('Error al cargar el formulario de edición', $e->getMessage());
         }
-
-        $model = $this->model::findOrFail($id);
-
-        return Inertia::render($this->getModelName() . '/CreateUpdate', array_merge([
-            'isCreate' => false,
-            'model' => $model,
-        ], PermissionService::getPermissions($permiso)));
     }
+
     public function update(Request $request, $id)
     {
         try {
-            $model = $this->model::findOrFail($id);
+            $model = $this->model::find($id);
+            if (!$model) {
+                return ResponseService::error('Registro no encontrado', '', 404);
+            }
             $data = $this->handleRequest($request);
             $model->update($data);
             return ResponseService::success('Registro actualizado correctamente', $model);
@@ -73,7 +98,10 @@ trait CrudController
     public function destroy($id)
     {
         try {
-            $model = $this->model::findOrFail($id);
+            $model = $this->model::find($id);
+            if (!$model) {
+                return ResponseService::error('Registro no encontrado', '', 404);
+            }
             $model->delete();
             return ResponseService::success('Registro eliminado correctamente');
         } catch (\Exception $e) {
@@ -137,8 +165,8 @@ trait CrudController
             }
             // 6. Ejecutar la consulta según el tipo
             $response = $is_query_table
-                ? $query->orderBy('id')->paginate($perPage, ['*'], 'page', $page)
-                : $query->orderBy('id')->get();
+                ? $query->orderBy('id', 'DESC')->paginate($perPage, ['*'], 'page', $page)
+                : $query->orderBy('id', 'DESC')->get();
 
             $cantidad = $is_query_table ? $response->total() : $response->count();
             // 7. Retornar respuesta

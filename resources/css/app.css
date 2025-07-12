@@ -157,6 +157,172 @@
     --sidebar: hsl(240 5.9% 10%);
 }
 
+/* Children Theme - Bright, colorful, and playful */
+.theme-children {
+    --background: hsl(210, 100%, 97%);
+    --foreground: hsl(210, 80%, 25%);
+    --card: hsl(180, 75%, 97%);
+    --card-foreground: hsl(210, 80%, 25%);
+    --popover: hsl(180, 75%, 97%);
+    --popover-foreground: hsl(210, 80%, 25%);
+    --primary: hsl(350, 80%, 65%);
+    --primary-foreground: hsl(0, 0%, 100%);
+    --secondary: hsl(40, 100%, 70%);
+    --secondary-foreground: hsl(210, 80%, 25%);
+    --muted: hsl(210, 40%, 93%);
+    --muted-foreground: hsl(210, 40%, 40%);
+    --accent: hsl(130, 60%, 60%);
+    --accent-foreground: hsl(0, 0%, 100%);
+    --destructive: hsl(350, 90%, 60%);
+    --destructive-foreground: hsl(0, 0%, 100%);
+    --border: hsl(210, 40%, 90%);
+    --input: hsl(210, 40%, 90%);
+    --ring: hsl(350, 80%, 65%);
+    --chart-1: hsl(350, 80%, 65%);
+    --chart-2: hsl(40, 100%, 70%);
+    --chart-3: hsl(130, 60%, 60%);
+    --chart-4: hsl(210, 80%, 60%);
+    --chart-5: hsl(280, 70%, 65%);
+    --sidebar-background: hsl(210, 80%, 95%);
+    --sidebar-foreground: hsl(210, 80%, 25%);
+    --sidebar-primary: hsl(350, 80%, 65%);
+    --sidebar-primary-foreground: hsl(0, 0%, 100%);
+    --sidebar-accent: hsl(40, 100%, 70%);
+    --sidebar-accent-foreground: hsl(210, 80%, 25%);
+    --sidebar-border: hsl(210, 40%, 90%);
+    --sidebar-ring: hsl(350, 80%, 65%);
+    --sidebar: hsl(210, 80%, 95%);
+
+    /* Rounded corners for a more playful look */
+    --radius: 1rem;
+
+    /* Larger font for better readability for children */
+    font-size: 110%;
+}
+
+/* Youth Theme - Modern, vibrant, and energetic */
+.theme-youth {
+    --background: hsl(240, 10%, 98%);
+    --foreground: hsl(240, 20%, 20%);
+    --card: hsl(240, 10%, 98%);
+    --card-foreground: hsl(240, 20%, 20%);
+    --popover: hsl(240, 10%, 98%);
+    --popover-foreground: hsl(240, 20%, 20%);
+    --primary: hsl(250, 90%, 60%);
+    --primary-foreground: hsl(0, 0%, 100%);
+    --secondary: hsl(190, 90%, 50%);
+    --secondary-foreground: hsl(0, 0%, 100%);
+    --muted: hsl(240, 10%, 94%);
+    --muted-foreground: hsl(240, 10%, 40%);
+    --accent: hsl(330, 90%, 65%);
+    --accent-foreground: hsl(0, 0%, 100%);
+    --destructive: hsl(0, 90%, 60%);
+    --destructive-foreground: hsl(0, 0%, 100%);
+    --border: hsl(240, 10%, 90%);
+    --input: hsl(240, 10%, 90%);
+    --ring: hsl(250, 90%, 60%);
+    --chart-1: hsl(250, 90%, 60%);
+    --chart-2: hsl(190, 90%, 50%);
+    --chart-3: hsl(330, 90%, 65%);
+    --chart-4: hsl(140, 70%, 50%);
+    --chart-5: hsl(40, 90%, 60%);
+    --sidebar-background: hsl(250, 20%, 20%);
+    --sidebar-foreground: hsl(0, 0%, 100%);
+    --sidebar-primary: hsl(250, 90%, 60%);
+    --sidebar-primary-foreground: hsl(0, 0%, 100%);
+    --sidebar-accent: hsl(240, 10%, 30%);
+    --sidebar-accent-foreground: hsl(0, 0%, 100%);
+    --sidebar-border: hsl(240, 10%, 25%);
+    --sidebar-ring: hsl(250, 90%, 60%);
+    --sidebar: hsl(250, 20%, 20%);
+
+    /* Slightly rounded corners for a modern look */
+    --radius: 0.5rem;
+}
+
+/* Adults Theme - Professional, clean, and sophisticated */
+.theme-adults {
+    --background: hsl(220, 20%, 98%);
+    --foreground: hsl(220, 20%, 20%);
+    --card: hsl(0, 0%, 100%);
+    --card-foreground: hsl(220, 20%, 20%);
+    --popover: hsl(0, 0%, 100%);
+    --popover-foreground: hsl(220, 20%, 20%);
+    --primary: hsl(220, 70%, 50%);
+    --primary-foreground: hsl(0, 0%, 100%);
+    --secondary: hsl(220, 20%, 92%);
+    --secondary-foreground: hsl(220, 20%, 20%);
+    --muted: hsl(220, 20%, 94%);
+    --muted-foreground: hsl(220, 10%, 40%);
+    --accent: hsl(220, 70%, 90%);
+    --accent-foreground: hsl(220, 70%, 30%);
+    --destructive: hsl(0, 70%, 50%);
+    --destructive-foreground: hsl(0, 0%, 100%);
+    --border: hsl(220, 20%, 90%);
+    --input: hsl(220, 20%, 90%);
+    --ring: hsl(220, 70%, 50%);
+    --chart-1: hsl(220, 70%, 50%);
+    --chart-2: hsl(180, 70%, 40%);
+    --chart-3: hsl(40, 70%, 50%);
+    --chart-4: hsl(140, 60%, 40%);
+    --chart-5: hsl(0, 60%, 50%);
+    --sidebar-background: hsl(220, 20%, 20%);
+    --sidebar-foreground: hsl(0, 0%, 100%);
+    --sidebar-primary: hsl(220, 70%, 50%);
+    --sidebar-primary-foreground: hsl(0, 0%, 100%);
+    --sidebar-accent: hsl(220, 20%, 30%);
+    --sidebar-accent-foreground: hsl(0, 0%, 100%);
+    --sidebar-border: hsl(220, 20%, 25%);
+    --sidebar-ring: hsl(220, 70%, 50%);
+    --sidebar: hsl(220, 20%, 20%);
+
+    /* Subtle rounded corners for a professional look */
+    --radius: 0.25rem;
+}
+
+/* Font size accessibility classes */
+.font-size-large {
+    font-size: 112.5%; /* 1.125rem for base 16px */
+}
+
+.font-size-x-large {
+    font-size: 125%; /* 1.25rem for base 16px */
+}
+
+/* High contrast mode */
+.high-contrast {
+    --foreground: #000000;
+    --background: #ffffff;
+    --primary: #000000;
+    --primary-foreground: #ffffff;
+    --secondary: #000000;
+    --secondary-foreground: #ffffff;
+    --muted: #f5f5f5;
+    --muted-foreground: #000000;
+    --accent: #f5f5f5;
+    --accent-foreground: #000000;
+    --border: #000000;
+    --input: #000000;
+    --ring: #000000;
+}
+
+/* Dark mode high contrast */
+.dark.high-contrast {
+    --foreground: #ffffff;
+    --background: #000000;
+    --primary: #ffffff;
+    --primary-foreground: #000000;
+    --secondary: #ffffff;
+    --secondary-foreground: #000000;
+    --muted: #333333;
+    --muted-foreground: #ffffff;
+    --accent: #333333;
+    --accent-foreground: #ffffff;
+    --border: #ffffff;
+    --input: #ffffff;
+    --ring: #ffffff;
+}
+
 @layer base {
     * {
         @apply border-border outline-ring/50;

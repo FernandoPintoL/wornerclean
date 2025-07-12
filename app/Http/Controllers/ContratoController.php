@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreContratoRequest;
-use App\Http\Requests\UpdateContratoRequest;
 use App\Models\Contrato;
 use App\Traits\CrudController;
 

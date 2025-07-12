@@ -17,17 +17,11 @@ export class EmpleadoNegocio extends BaseNegocio<Empleado>{
         if (!empleado.ci) {
             throw new Error('El CI es requerido');
         }
-        if (!empleado.tipo_documento_id) {
-            throw new Error('El tipo de documento es requerido');
-        }
-        if (!empleado.direccion) {
-            throw new Error('La dirección es requerida');
-        }
         if (!empleado.telefono) {
             throw new Error('El teléfono es requerido');
         }
-        if (!empleado.email) {
-            throw new Error('El email es requerido');
+        if (!empleado.puesto) {
+            throw new Error('El puesto es requerido');
         }
     }
 }

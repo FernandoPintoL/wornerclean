@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
-use App\Models\Roles;
 use App\Models\User;
 use App\Services\PermissionService;
 use App\Services\ResponseService;
@@ -12,6 +9,7 @@ use App\Traits\CrudController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -49,7 +47,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(Request $request)
     {
         try {
             $data = $this->model::create($request->all());
@@ -62,7 +60,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $categorium)
+    public function show(User $user)
     {
         //
     }
@@ -85,7 +83,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
         try {
             $user->update($request->all());
@@ -100,7 +98,7 @@ class UserController extends Controller
     public function getAllRoles()
     {
         try {
-            $roles = Roles::all();
+            $roles = Role::all();
             return ResponseService::success('Roles obtenidos correctamente', $roles);
         } catch (\Exception $e) {
             return ResponseService::error('Error al obtener los roles', $e->getMessage());

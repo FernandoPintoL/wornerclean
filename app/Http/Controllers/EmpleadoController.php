@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreEmpleadoRequest;
-use App\Http\Requests\UpdateEmpleadoRequest;
 use App\Models\Empleado;
 use App\Traits\CrudController;
 
