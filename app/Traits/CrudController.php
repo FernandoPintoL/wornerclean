@@ -10,6 +10,18 @@ use Inertia\Inertia;
 
 trait CrudController
 {
+    /**
+     * Get the authenticated user safely
+     */
+    protected function getAuthenticatedUser()
+    {
+        $user = Auth::user();
+        if (!$user) {
+            throw new \Exception('Usuario no autenticado');
+        }
+        return $user;
+    }
+
     protected function getModelName()
     {
         if (!isset($this->rutaVisita)) {
@@ -76,7 +88,7 @@ trait CrudController
     {
         try{
             $permiso = strtolower($this->getModelName());
-            $user = Auth::user();
+            $user = $this->getAuthenticatedUser();
 
             // Super Admin puede hacer todo
             if ($user->hasRole('Super Admin')) {
@@ -128,7 +140,7 @@ trait CrudController
     {
         try {
             $permiso = strtolower($this->getModelName());
-            $user = Auth::user();
+            $user = $this->getAuthenticatedUser();
 
             // Super Admin puede hacer todo
             if ($user->hasRole('Super Admin')) {
