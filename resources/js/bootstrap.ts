@@ -1,7 +1,12 @@
 import axios from 'axios';
 
 // Configure Axios defaults
-axios.defaults.baseURL = window.location.origin + '/wornerclean/public';
+// In production, use the APP_URL from environment
+const baseURL = import.meta.env.PROD
+    ? (window as any).APP_URL || 'https://tecnoweb.org.bo/inf513/grupo18sc/wornerclean/public'
+    : window.location.origin + '/wornerclean/public';
+
+axios.defaults.baseURL = baseURL;
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 axios.defaults.headers.common['Accept'] = 'application/json';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
