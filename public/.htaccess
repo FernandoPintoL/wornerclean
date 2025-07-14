@@ -5,6 +5,9 @@
 
     RewriteEngine On
 
+    # Set the base directory for rewrite rules
+    RewriteBase /wornerclean/public/
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
