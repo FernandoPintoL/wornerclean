@@ -18,6 +18,7 @@ export abstract class BaseData<T> {
                 dateEnd: params.dateEnd
             });
             const response = await axios.post(url);
+            console.log('consulta', response.data);
             return response.data as ResponsiveService;
         } catch (e) {
             console.error('Error en consultar:', e);
@@ -51,6 +52,17 @@ export abstract class BaseData<T> {
             return response.data as ResponsiveService;
         } catch (error) {
             console.error('Error al eliminar:', error);
+            throw error;
+        }
+    }
+
+    async obtenerDatos(routeName: string, params: any = {}): Promise<ResponsiveService> {
+        try {
+            const url = route(routeName, params);
+            const response = await axios.get(url);
+            return response.data as ResponsiveService;
+        } catch (error) {
+            console.error('Error al obtener datos:', error);
             throw error;
         }
     }

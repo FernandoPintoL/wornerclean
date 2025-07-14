@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $nombre
@@ -35,4 +35,24 @@ class EquipoTrabajo extends Model
         'estado',
         'user_id'
     ];
+
+    /**
+     * Get the services associated with the work team.
+     */
+    public function servicios()
+    {
+        return $this->belongsToMany(Servicio::class, 'equipo_trabajo_servicios', 'equipo_trabajo_id', 'servicio_id')
+                    ->withPivot('estado')
+                    ->withTimestamps();
+    }
+
+    /**
+     * Get the employees associated with the work team.
+     */
+    public function empleados()
+    {
+        return $this->belongsToMany(Empleado::class, 'empleado_equipo_trabajos', 'equipo_trabajo_id', 'empleado_id')
+                    ->withPivot('estado', 'ocupacion')
+                    ->withTimestamps();
+    }
 }

@@ -6,8 +6,8 @@ export interface Usuario {
     email: string;
     usernick: string;
     password?: string;
-    createdAt: string;
-    updatedAt: string;
+    created_at?: string;
+    updated_at?: string;
 }
 export class UserData extends BaseData<Usuario>{
     protected path_api_url: string = 'api.users';
@@ -19,8 +19,8 @@ export function getDefaultAttributes() {
         email: true,
         usernick: true,
         password: false,
-        createdAt: false,
-        updatedAt: false,
+        created_at: false,
+        updated_at: false,
     } as Record<string, boolean>;
 }
 export const selectedAttributes = getDefaultAttributes();

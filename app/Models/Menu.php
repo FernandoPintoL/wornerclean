@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string $title
@@ -35,9 +35,11 @@ class Menu extends Model
     protected $primaryKey = "id";
     protected $fillable = [
         'title',
-        'ruta',
+        'href',
         'icon',
-        'isMain'
+        'isMain',
+        'parent_id',
+        'isSubmenu'
     ];
     public function submenus()
     {

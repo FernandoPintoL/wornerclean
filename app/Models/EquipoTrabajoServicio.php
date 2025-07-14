@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int|null $equipo_trabajo_id
@@ -34,4 +34,20 @@ class EquipoTrabajoServicio extends Model
         'servicio_id',
         'estado'
     ];
+
+    /**
+     * Get the work team that owns the relationship.
+     */
+    public function equipoTrabajo()
+    {
+        return $this->belongsTo(EquipoTrabajo::class, 'equipo_trabajo_id');
+    }
+
+    /**
+     * Get the service that owns the relationship.
+     */
+    public function servicio()
+    {
+        return $this->belongsTo(Servicio::class, 'servicio_id');
+    }
 }

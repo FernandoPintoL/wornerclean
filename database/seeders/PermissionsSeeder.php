@@ -26,6 +26,7 @@ class PermissionsSeeder extends Seeder
             'menu',
             'permissions',
             'proveedor',
+            'reporte',
             'roles',
             'sector',
             'tipo-documento',

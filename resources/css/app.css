@@ -1,6 +1,10 @@
 @import 'tailwindcss';
 
+@import './form-styles.css';
+
 @import 'tw-animate-css';
+
+@import './select-styles.css';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';

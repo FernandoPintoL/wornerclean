@@ -36,9 +36,9 @@ class UserController extends Controller
     public function create()
     {
         $permiso = strtolower($this->rutaVisita);
-        if (!Auth::user()->can($permiso.'-create')) {
+        /*if (!Auth::user()->can($permiso.'-create')) {
             abort(403);
-        }
+        }*/
         return Inertia::render($this->rutaVisita . '/CreateUpdate', array_merge([
             'isCreate' => true
         ], PermissionService::getPermissions($permiso)));
@@ -71,9 +71,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $permiso = strtolower($this->rutaVisita);
-        if (!Auth::user()->can($permiso.'-edit')) {
+        /*if (!Auth::user()->can($permiso.'-edit')) {
             abort(403);
-        }
+        }*/
         return Inertia::render($this->rutaVisita . '/CreateUpdate', array_merge([
             'isCreate' => false,
             'model' => $user,
@@ -86,7 +86,22 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         try {
-            $user->update($request->all());
+            // Check if the request contains a password field
+            if ($request->has('password') && !empty($request->password)) {
+                // Only allow users to change their own password
+                if (Auth::id() !== $user->id) {
+                    return ResponseService::error('No autorizado', 'No puede modificar la contraseña de otro usuario');
+                }
+
+                // If we're here, the user is changing their own password
+                $data = $request->all();
+            } else {
+                // If no password is being changed, or it's empty, proceed with the update
+                // but remove the password field to prevent empty password updates
+                $data = $request->except('password');
+            }
+
+            $user->update($data);
             return ResponseService::success('Registro actualizado correctamente', $user);
         } catch (\Exception $e) {
             return ResponseService::error('Error al actualizar el registro', $e->getMessage());

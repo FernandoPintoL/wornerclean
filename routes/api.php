@@ -14,9 +14,12 @@ use App\Http\Controllers\{
     PageVisitController,
     ProductoController,
     ProductoServicioController,
+    ReporteController,
     ServicioController,
     MenuController,
-    UserController
+    UserController,
+    RolesController,
+    PermissionsController
 };
 
 $resources = [
@@ -34,19 +37,47 @@ $resources = [
     'menu' => MenuController::class,
     'equipo-servicio' => EquipoServicioController::class,
     'users' => UserController::class,
+    'roles' => RolesController::class,
+    'permissions' => PermissionsController::class,
 ];
-/*
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');*/
 
 // Resource routes
 foreach ($resources as $key => $controller) {
     Route::post("/$key/query", [$controller, 'query'])->name("api.$key.query");
     Route::post("/$key/store", [$controller, 'store'])->name("api.$key.store");
     Route::put("/$key/{".$key."}", [$controller, 'update'])->name("api.$key.update");
+    Route::delete("/$key/{".$key."}", [$controller, 'destroy'])->name("api.$key.destroy");
 }
+
+// Menu routes
+Route::get('/menu/main-menus', [MenuController::class, 'getMainMenus'])->name('api.menu.main-menus');
 
 // Page visit counter-routes
 Route::get('/page-visits', [PageVisitController::class, 'getCount'])->name('api.page-visits.count');
+Route::get('/page-visits/all', [PageVisitController::class, 'getAllCounts'])->name('api.page-visits.all');
 Route::post('/page-visits/increment', [PageVisitController::class, 'increment'])->name('api.page-visits.increment');
+
+// EmpleadoEquipoTrabajo routes
+Route::get('/empleado-equipo-trabajo/equipo/{equipoTrabajoId}/empleados', [EmpleadoEquipoTrabajoController::class, 'getEmpleadosByEquipoTrabajo'])->name('api.empleado-equipo-trabajo.empleados-by-equipo');
+Route::get('/empleado-equipo-trabajo/empleado/{empleadoId}/equipos', [EmpleadoEquipoTrabajoController::class, 'getEquipoTrabajosByEmpleado'])->name('api.empleado-equipo-trabajo.equipos-by-empleado');
+Route::post('/empleado-equipo-trabajo/assign', [EmpleadoEquipoTrabajoController::class, 'assignEmpleadoToEquipoTrabajo'])->name('api.empleado-equipo-trabajo.assign');
+Route::delete('/empleado-equipo-trabajo/remove/{id}', [EmpleadoEquipoTrabajoController::class, 'removeEmpleadoFromEquipoTrabajo'])->name('api.empleado-equipo-trabajo.remove');
+
+// ContratoIncidencias routes
+Route::get('/contrato-incidencias/contrato/{contratoId}/incidencias', [ContratoIncidenciasController::class, 'getIncidenciasByContrato'])->name('api.contrato-incidencias.incidencias-by-contrato');
+
+// Role permissions routes
+Route::get('/roles/permissions', [RolesController::class, 'getAllPermissions'])->name('api.roles.permissions');
+Route::get('/roles/{role}/permissions', [RolesController::class, 'getRolePermissions'])->name('api.roles.role-permissions');
+Route::post('/roles/{role}/permissions', [RolesController::class, 'assignPermissions'])->name('api.roles.assign-permissions');
+
+// Employee roles routes
+Route::get('/empleado/{empleado}/roles', [EmpleadoController::class, 'getEmployeeRoles'])->name('api.empleado.roles');
+Route::post('/empleado/{empleado}/roles', [EmpleadoController::class, 'assignRoles'])->name('api.empleado.assign-roles');
+
+// Report routes
+Route::get('/reportes', [ReporteController::class, 'index'])->name('api.reportes.index');
+Route::post('/reportes/contratos', [ReporteController::class, 'reporteContratos'])->name('api.reportes.contratos');
+Route::post('/reportes/incidencias', [ReporteController::class, 'reporteIncidencias'])->name('api.reportes.incidencias');
+Route::post('/reportes/productos', [ReporteController::class, 'reporteProductos'])->name('api.reportes.productos');
+Route::post('/reportes/equipos-trabajo', [ReporteController::class, 'reporteEquiposTrabajo'])->name('api.reportes.equipos-trabajo');

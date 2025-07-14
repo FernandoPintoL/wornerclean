@@ -36,7 +36,9 @@ class DatabaseSeeder extends Seeder
             ProductoSeeder::class,
             ProductoServicioSeeder::class,
             IncidenciasSeeder::class,
-            MenuSeeder::class
+            MenuSeeder::class,
+            ReporteMenuSeeder::class,
+            ReportePermissionsSeeder::class
         ]);
     }
 }

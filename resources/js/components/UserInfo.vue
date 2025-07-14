@@ -30,5 +30,8 @@ const showAvatar = computed(() => props.user.avatar && props.user.avatar !== '')
     <div class="grid flex-1 text-left text-sm leading-tight">
         <span class="truncate font-medium">{{ user.name }}</span>
         <span v-if="showEmail" class="truncate text-xs text-muted-foreground">{{ user.email }}</span>
+        <span v-if="showEmail && user.roles && user.roles.length > 0" class="truncate text-xs text-muted-foreground">
+            <span class="font-semibold">Rol:</span> {{ user.roles.join(', ') }}
+        </span>
     </div>
 </template>

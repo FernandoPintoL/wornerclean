@@ -1,13 +1,16 @@
 import { BaseNegocio } from '@/Negocio/BaseNegocio';
 import { Servicio, ServicioData } from '@/Data/Servicio';
+import { ProductoServicioNegocio } from '@/Negocio/ProductoServicioNegocio';
 
 export class ServicioNegocio extends BaseNegocio<Servicio>{
     public model: string = 'servicio';
     protected dataService: ServicioData;
+    public productoServicioNegocio: ProductoServicioNegocio;
 
     constructor() {
         super();
         this.dataService = new ServicioData();
+        this.productoServicioNegocio = new ProductoServicioNegocio();
     }
 
     protected validar(servicio: Servicio) {

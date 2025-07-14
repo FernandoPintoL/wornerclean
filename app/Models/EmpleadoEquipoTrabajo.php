@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int|null $empleado_id
@@ -37,4 +37,20 @@ class EmpleadoEquipoTrabajo extends Model
         'estado',
         'ocupacion'
     ];
+
+    /**
+     * Get the employee associated with this record.
+     */
+    public function empleado()
+    {
+        return $this->belongsTo(Empleado::class, 'empleado_id');
+    }
+
+    /**
+     * Get the work team associated with this record.
+     */
+    public function equipoTrabajo()
+    {
+        return $this->belongsTo(EquipoTrabajo::class, 'equipo_trabajo_id');
+    }
 }

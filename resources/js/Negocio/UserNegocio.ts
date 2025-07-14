@@ -2,7 +2,7 @@ import { BaseNegocio } from '@/Negocio/BaseNegocio';
 import { Usuario, UserData } from '@/Data/User';
 
 export class UserNegocio extends BaseNegocio<Usuario>{
-    public model: string = 'usuario';
+    public model: string = 'users';
     protected dataService: UserData;
 
     constructor() {

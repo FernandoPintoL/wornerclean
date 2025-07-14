@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $ci
@@ -33,6 +34,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Empleado extends Model
 {
+    use HasRoles;
+
     protected $table = 'empleados';
     protected $primaryKey = 'id';
     protected $fillable = [
@@ -44,4 +47,14 @@ class Empleado extends Model
         'estado',
         'user_id'
     ];
+
+    /**
+     * Get the work teams associated with the employee.
+     */
+    public function equiposTrabajo()
+    {
+        return $this->belongsToMany(EquipoTrabajo::class, 'empleado_equipo_trabajos', 'empleado_id', 'equipo_trabajo_id')
+                    ->withPivot('estado', 'ocupacion')
+                    ->withTimestamps();
+    }
 }

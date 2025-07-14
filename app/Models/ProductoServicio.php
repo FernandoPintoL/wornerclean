@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property int|null $producto_id
@@ -30,6 +30,24 @@ class ProductoServicio extends Model
     protected $table = 'producto_servicios';
     protected $primaryKey = 'id';
     protected $fillable = [
-        'cantidad' // Solo para productos
+        'producto_id',
+        'servicio_id',
+        'cantidad'
     ];
+
+    /**
+     * Get the producto that owns the producto_servicio
+     */
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id');
+    }
+
+    /**
+     * Get the servicio that owns the producto_servicio
+     */
+    public function servicio()
+    {
+        return $this->belongsTo(Servicio::class, 'servicio_id');
+    }
 }

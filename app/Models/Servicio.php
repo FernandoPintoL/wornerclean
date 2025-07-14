@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $nombre
@@ -40,4 +40,32 @@ class Servicio extends Model
         'frecuencia',
         'estado'
     ];
+
+    /**
+     * Get the work teams associated with the service.
+     */
+    public function equipoTrabajos()
+    {
+        return $this->belongsToMany(EquipoTrabajo::class, 'equipo_trabajo_servicios', 'servicio_id', 'equipo_trabajo_id')
+                    ->withPivot('estado')
+                    ->withTimestamps();
+    }
+
+    /**
+     * Get the producto_servicios for the servicio
+     */
+    public function productoServicios()
+    {
+        return $this->hasMany(ProductoServicio::class, 'servicio_id');
+    }
+
+    /**
+     * Get the productos for the servicio through producto_servicios
+     */
+    public function productos()
+    {
+        return $this->belongsToMany(Producto::class, 'producto_servicios', 'servicio_id', 'producto_id')
+                    ->withPivot('cantidad')
+                    ->withTimestamps();
+    }
 }

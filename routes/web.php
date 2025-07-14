@@ -6,6 +6,7 @@ use App\Http\Controllers\{
     ClienteController,
     ContratoController,
     ContratoIncidenciasController,
+    DashboardController,
     EquipoTrabajoController,
     EquipoServicioController,
     EmpleadoController,
@@ -14,6 +15,7 @@ use App\Http\Controllers\{
     IncidenciasController,
     ProductoController,
     ProductoServicioController,
+    ReporteController,
     ServicioController,
     RolesController,
     UserController,
@@ -25,9 +27,7 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     $resources = [
@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'contrato-incidencias' => ContratoIncidenciasController::class,
         'empleado' => EmpleadoController::class,
         'equipo-servicio' => EquipoServicioController::class,
-        'equipo-trabajo' => EmpleadoController::class,
+        'equipo-trabajo' => EquipoTrabajoController::class,
         'empleado-equipo-trabajo' => EmpleadoEquipoTrabajoController::class,
         'equipo-trabajo-servicio' => EquipoTrabajoServicioController::class,
         'incidencias' => IncidenciasController::class,
@@ -49,9 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'menu' => MenuController::class,
     ];
 
-    Route::get('dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Resource routes
     foreach ($resources as $key => $controller) {
@@ -66,6 +64,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/users/roles', [UserController::class, 'getAllRoles'])->name('users.roles');
     Route::get('/users/{user}/roles', [UserController::class, 'getUserRoles'])->name('users.getRoles');
     Route::post('/users/{user}/roles', [UserController::class, 'assignRoles'])->name('users.assignRoles');
+
+    // Reports routes
+    Route::get('/reportes', [ReporteController::class, 'index'])->name('reportes.index');
 });
 
 

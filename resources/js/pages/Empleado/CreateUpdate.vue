@@ -6,14 +6,15 @@ import InputError from '@/components/InputError.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/vue3';
-import { onMounted, reactive } from 'vue';
+import { onMounted, reactive, computed } from 'vue';
 import { route } from 'ziggy-js';
-import { Pencil, DiamondPlus } from 'lucide-vue-next';
+import { Pencil, DiamondPlus, Shield } from 'lucide-vue-next';
 import { EmpleadoNegocio } from '@/Negocio/EmpleadoNegocio';
 import { Empleado } from '@/Data/Empleado';
 import { UserNegocio } from '@/Negocio/UserNegocio';
 import { Usuario } from '@/Data/User';
 import { ref } from 'vue';
+import axios from 'axios';
 
 const negocio = new EmpleadoNegocio();
 const userNegocio = new UserNegocio();
@@ -48,6 +49,62 @@ const props = defineProps({
 
 let use_model: Empleado;
 const isSystemUser = ref(false);
+const roles = ref([]);
+const selectedRoles = ref([]);
+const loadingRoles = ref(false);
+const roleSearch = ref('');
+
+// Computed property for filtered roles based on search
+const filteredRoles = computed(() => {
+    if (!roleSearch.value) {
+        return roles.value;
+    }
+
+    const searchTerm = roleSearch.value.toLowerCase();
+    return roles.value.filter(role =>
+        role.name.toLowerCase().includes(searchTerm)
+    );
+});
+
+// Fetch all roles
+const fetchRoles = async () => {
+    try {
+        loadingRoles.value = true;
+        const response = await axios.get('/api/roles/query', {
+            params: { perPage: 100 } // Get all roles
+        });
+        if (response.data.isSuccess) {
+            roles.value = response.data.data;
+        } else {
+            AlertService.error('Error al cargar los roles');
+        }
+    } catch (error) {
+        console.error('Error fetching roles:', error);
+        AlertService.error('Error al cargar los roles');
+    } finally {
+        loadingRoles.value = false;
+    }
+};
+
+// Fetch roles for an employee
+const fetchEmployeeRoles = async (employeeId) => {
+    if (!employeeId) return;
+
+    try {
+        loadingRoles.value = true;
+        const response = await axios.get(`/api/empleado/${employeeId}/roles`);
+        if (response.data.isSuccess) {
+            selectedRoles.value = response.data.data;
+        } else {
+            AlertService.error('Error al cargar los roles del empleado');
+        }
+    } catch (error) {
+        console.error('Error fetching employee roles:', error);
+        AlertService.error('Error al cargar los roles del empleado');
+    } finally {
+        loadingRoles.value = false;
+    }
+};
 
 const form = useForm({
     id: props.model != null ? props.model.id : '',
@@ -79,7 +136,15 @@ onMounted(() => {
             isSystemUser.value = true;
             // TODO: Ideally, we would fetch the user data here to populate the user fields
         }
+
+        // Fetch roles for this employee
+        if (props.model.id) {
+            fetchEmployeeRoles(props.model.id);
+        }
     }
+
+    // Fetch all available roles
+    fetchRoles();
 });
 
 const datas = reactive({
@@ -138,6 +203,23 @@ const createUser = async (): Promise<number | null> => {
     }
 };
 
+const assignRolesToEmployee = async (employeeId) => {
+    try {
+        if (selectedRoles.value.length === 0) return;
+
+        const response = await axios.post(`/api/empleado/${employeeId}/roles`, {
+            roles: selectedRoles.value
+        });
+
+        if (!response.data.isSuccess) {
+            AlertService.warning('El empleado se guardó correctamente, pero hubo un problema al asignar los roles.');
+        }
+    } catch (error) {
+        console.error('Error assigning roles:', error);
+        AlertService.warning('El empleado se guardó correctamente, pero hubo un problema al asignar los roles.');
+    }
+};
+
 const create_model = async () => {
     try {
         // If system user is selected, create user first
@@ -150,10 +232,11 @@ const create_model = async () => {
         }
 
         cargarUseModel();
-        console.log(use_model);
         const response = await negocio.guardar(use_model);
-        console.log(response);
         if (response.isSuccess) {
+            // Assign roles to the newly created employee
+            await assignRolesToEmployee(response.data.id);
+
             await AlertService.success('La operación se completó con éxito.').then(() => {
                 window.location.href = route(model_path + '.index');
             });
@@ -191,6 +274,9 @@ const editar_model = async () => {
         cargarUseModel();
         const response = await negocio.actualizar(use_model, form.id ?? 0);
         if (response.isSuccess) {
+            // Assign roles to the updated employee
+            await assignRolesToEmployee(form.id);
+
             await AlertService.success('La operación se completó con éxito.').then(() => {
                 window.location.href = route(model_path + '.index');
             });
@@ -460,7 +546,7 @@ const handleErrors = (error: any) => {
                                     name="estado"
                                     v-model="form.estado"
                                     :class="[
-                                        'block w-full rounded-lg border p-3 text-sm shadow-sm transition-all duration-200 appearance-none',
+                                        'block w-full rounded-lg border p-3 text-sm shadow-sm transition-all duration-200',
                                         datas.estadoError
                                             ? 'border-red-500 bg-red-50 text-red-900 placeholder-red-400 focus:border-red-500 focus:ring-red-500 dark:border-red-400 dark:bg-red-900/10 dark:text-red-400'
                                             : 'border-gray-300 bg-white text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-indigo-500'
@@ -470,11 +556,6 @@ const handleErrors = (error: any) => {
                                     <option value="activo">Activo</option>
                                     <option value="inactivo">Inactivo</option>
                                 </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 dark:text-gray-400">
-                                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                                    </svg>
-                                </div>
                                 <div class="absolute inset-y-0 right-8 flex items-center pr-3 pointer-events-none" v-if="datas.estadoError">
                                     <svg class="h-5 w-5 text-red-500 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
@@ -647,6 +728,82 @@ const handleErrors = (error: any) => {
                             </div>
                             <InputError class="mt-2" :message="datas.userPasswordError" />
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">La contraseña debe tener al menos 6 caracteres</p>
+                        </div>
+                    </div>
+
+                    <!-- Roles Section -->
+                    <div class="mt-8 animate-fadeIn" style="animation-delay: 0.9s;">
+                        <!-- Form divider with gradient -->
+                        <div class="relative my-6">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-200 dark:border-gray-700"></div>
+                            </div>
+                            <div class="relative flex justify-center">
+                                <span class="bg-white dark:bg-gray-800 px-4 text-sm text-gray-500 dark:text-gray-400 flex items-center">
+                                    <Shield class="h-4 w-4 mr-2" />
+                                    Roles y Permisos
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Loading state for roles -->
+                        <div v-if="loadingRoles" class="flex justify-center items-center py-8">
+                            <div class="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                            <p class="ml-3 text-gray-600 dark:text-gray-400">Cargando roles...</p>
+                        </div>
+
+                        <!-- Roles list -->
+                        <div v-else-if="roles.length > 0" class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                            <div class="mb-4">
+                                <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                                    Seleccione los roles que desea asignar a este empleado:
+                                </p>
+
+                                <!-- Search roles -->
+                                <div class="relative mb-4">
+                                    <input
+                                        type="text"
+                                        placeholder="Buscar roles..."
+                                        class="w-full rounded-lg border border-gray-300 bg-white p-2.5 pl-10 text-sm text-gray-900 focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                                        v-model="roleSearch"
+                                    />
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <!-- Grid of roles -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 max-h-60 overflow-y-auto p-2">
+                                    <div
+                                        v-for="role in filteredRoles"
+                                        :key="role.id"
+                                        class="flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-150"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            :id="'role-' + role.id"
+                                            :value="role.id"
+                                            v-model="selectedRoles"
+                                            class="h-5 w-5 rounded-md border-2 border-gray-300 checked:border-indigo-600 checked:bg-indigo-600 focus:ring-2 focus:ring-indigo-500 transition-colors duration-200"
+                                        />
+                                        <label
+                                            :for="'role-' + role.id"
+                                            class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer"
+                                        >
+                                            {{ role.name }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- No roles found -->
+                        <div v-else class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 rounded-lg p-4 text-center">
+                            <p class="text-yellow-700 dark:text-yellow-400">
+                                No se encontraron roles disponibles. Por favor, cree algunos roles primero.
+                            </p>
                         </div>
                     </div>
 

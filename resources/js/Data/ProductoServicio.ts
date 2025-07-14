@@ -8,7 +8,7 @@ export interface ProductoServicio{
     updated_at?: string;
 }
 export class ProductoServicioData extends BaseData<ProductoServicio> {
-    protected path_api_url: string = 'api.producto_servicio';
+    protected path_api_url: string = 'api.producto-servicio';
 }
 export function getDefaultAttributes() {
     return {

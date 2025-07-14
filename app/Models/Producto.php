@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
+ *
  *
  * @property int $id
  * @property string|null $nombre
@@ -37,4 +37,22 @@ class Producto extends Model
         'precio',
         'stock'
     ];
+
+    /**
+     * Get the producto_servicios for the producto
+     */
+    public function productoServicios()
+    {
+        return $this->hasMany(ProductoServicio::class, 'producto_id');
+    }
+
+    /**
+     * Get the servicios for the producto through producto_servicios
+     */
+    public function servicios()
+    {
+        return $this->belongsToMany(Servicio::class, 'producto_servicios', 'producto_id', 'servicio_id')
+                    ->withPivot('cantidad')
+                    ->withTimestamps();
+    }
 }

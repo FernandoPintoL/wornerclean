@@ -21,6 +21,9 @@ defineProps<Props>();
         <div class="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
             <UserInfo :user="user" :show-email="true" />
         </div>
+        <div v-if="user.roles && user.roles.length > 0" class="px-3 py-1 text-xs text-gray-500 dark:text-gray-400">
+            <span class="font-semibold">Rol:</span> {{ user.roles.join(', ') }}
+        </div>
     </DropdownMenuLabel>
     <DropdownMenuSeparator />
     <DropdownMenuGroup>

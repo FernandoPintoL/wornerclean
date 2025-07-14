@@ -8,7 +8,7 @@ export interface EquipoTrabajo {
     updated_at?: string;
 }
 export class EquipoTrabajoData extends BaseData<EquipoTrabajo>{
-    protected path_api_url: string = 'api.equipo_trabajo';
+    protected path_api_url: string = 'api.equipo-trabajo';
 }
 export function getDefaultAttributes() {
     return {

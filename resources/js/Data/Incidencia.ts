@@ -8,7 +8,7 @@ export interface Incidencia {
     updated_at?: string;
 }
 export class IncidenciaData extends BaseData<Incidencia>{
-    protected path_api_url: string = 'api.incidencia';
+    protected path_api_url: string = 'api.incidencias';
 }
 export function getDefaultAttributes() {
     return {

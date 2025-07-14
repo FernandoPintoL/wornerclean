@@ -2,7 +2,7 @@ import { BaseNegocio } from '@/Negocio/BaseNegocio';
 import { Incidencia, IncidenciaData } from '@/Data/Incidencia';
 
 export class IncidenciaNegocio extends BaseNegocio<Incidencia>{
-    public model: string = 'incidencia';
+    public model: string = 'incidencias';
     protected dataService: IncidenciaData;
 
     constructor() {
